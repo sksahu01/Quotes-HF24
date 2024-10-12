@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote System with Tags</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .quote {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            position: relative;
+        }
+        .tags {
+            font-size: 0.8em;
+            color: #555;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quote System</h1>
+        <input type="text" id="tagFilter" placeholder="Search by tags (e.g., success, courage)" />
+        <div id="quoteList"></div>
+    </div>
+
+    <script>
+        // Sample quotes data
+        const quotes = [
+            {
+                "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+                "author": "Winston Churchill",
+                "tags": ["success", "failure", "courage"]
+            },
+            {
+                "quote": "The only way to do great work is to love what you do.",
+                "author": "Steve Jobs",
+                "tags": ["motivation", "work", "success"]
+            },
+            {
+                "quote": "Courage is not the absence of fear, but the triumph over it.",
+                "author": "Nelson Mandela",
+                "tags": ["courage", "fear", "strength"]
+            },
+            {
+                "quote": "Your time is limited, so don’t waste it living someone else’s life.",
+                "author": "Steve Jobs",
+                "tags": ["time", "motivation", "success"]
+            },
+            {
+                "quote": "Believe you can and you’re halfway there.",
+                "author": "Theodore Roosevelt",
+                "tags": ["belief", "success", "motivation"]
+            }
+        ];
+
+        // Function to display quotes
+        function displayQuotes(filter = "") {
+            const quoteList = document.getElementById('quoteList');
+            quoteList.innerHTML = ""; // Clear existing quotes
+
+            const filteredQuotes = quotes.filter(quote => 
+                quote.tags.some(tag => tag.toLowerCase().includes(filter.toLowerCase()))
+            );
+
+            if (filteredQuotes.length === 0) {
+                quoteList.innerHTML = "<p>No quotes found.</p>";
+                return;
+            }
+
+            filteredQuotes.forEach(quote => {
+                const quoteDiv = document.createElement('div');
+                quoteDiv.className = 'quote';
+                quoteDiv.innerHTML = `<p>"${quote.quote}"</p>
+                                     <p><strong>${quote.author}</strong></p>
+                                     <div class="tags">Tags: ${quote.tags.join(', ')}</div>`;
+                quoteList.appendChild(quoteDiv);
+            });
+        }
+
+        // Initial display of quotes
+        displayQuotes();
+
+        // Event listener for tag search
+        document.getElementById('tagFilter').addEventListener('input', (event) => {
+            const filterValue = event.target.value;
+            displayQuotes(filterValue);
+        });
+    </script>
+</body>
+</html>
